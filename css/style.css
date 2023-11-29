@@ -1,0 +1,7 @@
+#calculatorForm label,
+#calculatorForm input,
+#calculatorForm select,
+#calculatorForm button {
+  display: block;
+  margin-bottom: 10px; 
+}

@@ -1,5 +1,10 @@
-//costo del seguro
-function calcularSeguro(edad, tipo) {
+//costo de seguro y pagos en cuotas
+function calcularSeguro() {
+    let edad = parseInt(document.getElementById("edad").value);
+    let tipo = document.getElementById("tipo").value;
+    let monto = parseFloat(document.getElementById("monto").value);
+    let cuotas = parseInt(document.getElementById("cuotas").value);
+
     let costo;
 
     if (tipo === 'auto') {
@@ -10,23 +15,11 @@ function calcularSeguro(edad, tipo) {
         costo = 150 + (edad - 18) * 30;
     }
 
-    return costo;
+    let pagoMensual = monto / cuotas;
+    let resultado = `El costo del seguro es: ${costo}, y el pago mensual es: ${pagoMensual}`;
+    
+    document.getElementById("resultado").innerHTML = resultado;
 }
-
-let edadEjemplo = 25;
-let tipoEjemplo = 'auto';
-let costoSeguro = calcularSeguro(edadEjemplo, tipoEjemplo);
-console.log(`El costo del seguro para una persona de ${edadEjemplo} años y tipo de seguro ${tipoEjemplo} es: ${costoSeguro}`);
-
-//pagos en cuotas
-function calcularPagosEnCuotas(monto, cuotas) {
-    return monto / cuotas;
-}
-
-let monto = 1000;
-let cuotas = 12;
-let pagoMensual = calcularPagosEnCuotas(monto, cuotas);
-console.log("Pago mensual:", pagoMensual);
 
 //impuestos y descuentos.
 function calcularValorFinal(precio, impuestos, descuentos) {
@@ -35,7 +28,7 @@ function calcularValorFinal(precio, impuestos, descuentos) {
 }
 let precio = 100;
 let impuestos = 10;
-let descuentos = 5; 
+let descuentos = 5;
 let valorFinal = calcularValorFinal(precio, impuestos, descuentos);
 console.log(`El valor final del producto con un precio de ${precio}, impuestos del ${impuestos}% y descuentos del ${descuentos}% es: ${valorFinal}`);
 
@@ -52,7 +45,10 @@ let turnosEjemplo = [
     { tiempoEspera: 15 },
     { tiempoEspera: 5 },
     { tiempoEspera: 20 }
-]; 
+];
+turnosEjemplo.push({ tiempoEspera: 12 });
+turnosEjemplo.push({ tiempoEspera: 18 });
+
 let tiempoPromedio = calcularTiempoPromedioEspera(turnosEjemplo);
 console.log(`El tiempo de espera promedio para ${turnosEjemplo.length} turnos registrados es: ${tiempoPromedio}`);
 
