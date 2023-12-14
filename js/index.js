@@ -1,27 +1,25 @@
-//costo de seguro y pagos en cuotas
-function calcularSeguro() {
-    let edad = parseInt(document.getElementById("edad").value);
-    let tipo = document.getElementById("tipo").value;
-    let monto = parseFloat(document.getElementById("monto").value);
-    let cuotas = parseInt(document.getElementById("cuotas").value);
 
-    let costo;
+function calcularSeguroAuto() {
+    let edad = parseInt(document.getElementById("edad_auto").value);
+    let tipo = document.getElementById("tipo_modal").value;
 
-    if (tipo === 'auto') {
-        costo = 100 + (edad - 18) * 20;
-    } else if (tipo === 'hogar') {
-        costo = 120 + (edad - 18) * 25;
-    } else if (tipo === 'vida') {
-        costo = 150 + (edad - 18) * 30;
+    if (!edad || !tipo) {
+        alert("Por favor complete todos los campos para calcular el seguro de auto");
+        return;
     }
 
-    let pagoMensual = monto / cuotas;
-    let resultado = `El costo del seguro es: ${costo}, y el pago mensual es: ${pagoMensual}`;
-    
-    document.getElementById("resultado").innerHTML = resultado;
+    const modal = document.getElementById("modal");
+    modal.classList.remove("ocultar");
+
+    const modalContenido = document.querySelector(".modal-contenido");
+    modalContenido.innerHTML = `El costo del seguro para ${tipo} es: [costo calculado]`; // Reemplaza [costo calculado] con el valor calculado
 }
 
-//impuestos y descuentos.
+function cerrarModal() {
+    const modal = document.getElementById("modal");
+    modal.classList.add("ocultar");
+}
+
 function calcularValorFinal(precio, impuestos, descuentos) {
     let valorFinal = precio + (precio * impuestos / 100) - (precio * descuentos / 100);
     return valorFinal;

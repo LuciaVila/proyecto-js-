@@ -9,27 +9,64 @@
 </head>
 
 <body>
-    <form id="calculatorForm">
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad" placeholder="Ingresa tu edad">
+    <nav>
+        <ul>
+            <li><a href="#">¿Te paso un siniestro?</a></li>
+            <li><a href="#">Zona cliente</a></li>
+            <li><a href="#">Pagar</a></li>
+            <li><a href="#">Acerca de </a></li>
+        </ul>
+    </nav>
 
-        <label for="tipo">Tipo de seguro:</label>
-        <select id="tipo">
-            <option value="auto">Auto</option>
-            <option value="hogar">Hogar</option>
-            <option value="vida">Vida</option>
-        </select>
+    <div>
+        <h1>Cotiza en linea</h1>
+        <p>Selecciona el ptroducto que desea cotizar</p>
+    </div>
 
-        <label for="monto">Monto:</label>
-        <input type="number" id="monto" placeholder="Monto del seguro">
+    <main>
+        <div class="formulario">
+            <form id="calcularSeguroHogar">
+                <img src="./img/hogar.jpg" alt="imagen hogar">
+                <h3>Hogar</h3>
+                <button type="button" onclick="calcularSeguro()">Calcular</button>
+            </form>
+        </div>
 
-        <label for="cuotas">Cuotas:</label>
-        <input type="number" id="cuotas" placeholder="Cantidad de cuotas">
+        <div class="tarjetas" id="tarjetaAuto">
+            <img src="./img/auto.jpg" alt="imagen auto">
+            <h3>Autos</h3>
+            <button type="button" onclick="mostrarModal('calcularSeguroAuto')">Calcular</button>
+        </div>
 
-        <button type="button" onclick="calcularSeguro()">Calcular</button>
-    </form>
+        <div id="modal" class="modal ocultar">
+            <div class="modal-contenido">
+                <form id="calcularSeguroAuto">
+                    <label for="edad_auto">Edad:</label>
+                    <input type="number" id="edad_auto" placeholder="Ingresa tu edad">
 
-    <p id="resultado"></p>
+                    <label for="tipo_auto">Tipo de seguro</label>
+                    <select id="tipo_auto">
+                        <option value="civil">Seguros de responsabilidad civil</option>
+                        <option value="perdida vehiculo">Daños a terceros (robo, incendios, destruccion)</option>
+                        <option value="daños vehiculo">Daño a terceros (robo parcial, incendio parcial, destruccion
+                            accidente)</option>
+                    </select>
+
+                    <button type="button" onclick="calcularSeguro('auto')">Calcular</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="formulario">
+            <form id="calcularSeguroVida">
+                <img src="./img/vida.png" alt="imagen vida">
+                <h3>Vida</h3>
+                <button type="button" onclick="calcularSeguro()">Calcular</button>
+            </form>
+        </div>
+
+        <p id="resultado"></p>
+    </main>
 
     <script src="./js/index.js"></script>
 </body>
