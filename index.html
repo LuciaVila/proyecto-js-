@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
 </head>
@@ -20,54 +22,110 @@
 
     <div>
         <h1>Cotiza en linea</h1>
-        <p>Selecciona el ptroducto que desea cotizar</p>
+        <p>Selecciona el producto que desea cotizar</p>
     </div>
 
     <main>
-        <div class="formulario">
-            <form id="calcularSeguroHogar">
-                <img src="./img/hogar.jpg" alt="imagen hogar">
-                <h3>Hogar</h3>
-                <button type="button" onclick="calcularSeguro()">Calcular</button>
-            </form>
+        <div class="tarjetas" id="tarjetaHogar">
+            <img src="./img/hogar.png" alt="imagen hogar">
+            <h3>Hogar</h3>
+            <button type="button" id="botonMostrarFormularioHogar">Cotizar</button>
+            <div class="formulario-seguro ocultar" id="formularioSeguroHogar">
+                <label for="metros_cuadrados">Metros cuadrados:</label>
+                <input type="number" id="metros_cuadrados" placeholder="Metros cuadrados de tu vivienda">
+
+                <label for="valor_contenido">Valor contenido:</label>
+                <input type="number" id="valor_contenido" placeholder="Valor de los contenidos de la vivienda">
+
+                <label for="ubicacion">Ubicación:</label>
+                <select id="ubicacion">
+                    <option value="urbana">Urbana</option>
+                    <option value="suburbana">Suburbana</option>
+                    <option value="rural">Rural</option>
+                </select>
+
+                <button type="button" onclick="calcularSeguroHogar()">Calcular</button>
+            </div>
+            <p id="resultadoHogar"></p>
         </div>
 
-        <div class="tarjetas" id="tarjetaAuto">
-            <img src="./img/auto.jpg" alt="imagen auto">
-            <h3>Autos</h3>
-            <button type="button" onclick="mostrarModal('calcularSeguroAuto')">Calcular</button>
-        </div>
+        <div class="tarjetas">
+            <div id="contenido">
+                <img src="./img/auto.png" alt="">
+                <h3>Auto</h3>
+                <form action="#" id="cotizarSeguroAuto">
+                    <div id="formularioInicioSesionAuto" class="ocultar">
+                        <input type="email" id="correo" placeholder="Correo electrónico">
+                        <input type="password" id="contrasena" placeholder="Contraseña">
+                        <button id="btnIniciarSesion">Iniciar Sesión</button>
+                    </div>
+                    <button id="mostrarFormularioAuto">Cotizar</button>
+                    <div id="formularioSeguroAuto" class="formulario-seguro ocultar">
+                        <div class="form-group">
+                            <div>
+                                <label for="marca">Marca:</label>
+                                <select id="marca">
+                                    <option value="">- Seleccionar -</option>
+                                    <option value="1">Americano</option>
+                                    <option value="2">Asiatico</option>
+                                    <option value="3">Europeo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="anio">Año:</label>
+                            <select class="form-control" id="anio">
+                            </select>
+                        </div>
+                        <fieldset class="form-group">
+                            <legend class="col-form-legend col-12">Tipo Seguro</legend>
+                            <div class="col12">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="tipo" value="basico"
+                                            checked>Básico
+                                    </label>
+                                </div>
 
-        <div id="modal" class="modal ocultar">
-            <div class="modal-contenido">
-                <form id="calcularSeguroAuto">
-                    <label for="edad_auto">Edad:</label>
-                    <input type="number" id="edad_auto" placeholder="Ingresa tu edad">
-
-                    <label for="tipo_auto">Tipo de seguro</label>
-                    <select id="tipo_auto">
-                        <option value="civil">Seguros de responsabilidad civil</option>
-                        <option value="perdida vehiculo">Daños a terceros (robo, incendios, destruccion)</option>
-                        <option value="daños vehiculo">Daño a terceros (robo parcial, incendio parcial, destruccion
-                            accidente)</option>
-                    </select>
-
-                    <button type="button" onclick="calcularSeguro('auto')">Calcular</button>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="tipo"
+                                            value="completo">Completo
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div id="resultado"></div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-raised btn-primary">Calcular </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
 
-        <div class="formulario">
-            <form id="calcularSeguroVida">
-                <img src="./img/vida.png" alt="imagen vida">
-                <h3>Vida</h3>
-                <button type="button" onclick="calcularSeguro()">Calcular</button>
-            </form>
+        <div class="tarjetas" id="tarjetaVida">
+            <img src="./img/vida2.png" alt="imagen vida">
+            <h3>Vida</h3>
+            <button type="button" id="botonMostrarFormularioVida">Cotizar</button>
+            <div class="formulario-seguro ocultar" id="formularioSeguroVida">
+                <form id="formularioSeguroVida">
+                    <label for="edad_vida">Edad:</label>
+                    <input type="number" id="edad_vida" placeholder="Ingresa tu edad">
+
+                    <label for="hijos_vida">Cantidad de hijos:</label>
+                    <input type="number" id="hijos_vida" placeholder="Cantidad de hijos">
+
+                    <label for="fumador_vida">¿Eres fumador?</label>
+                    <input type="checkbox" id="fumador_vida">
+
+                    <button type="button" onclick="calcularSeguroVida()">Calcular</button>
+                </form>
+            </div>
         </div>
-
-        <p id="resultado"></p>
+        <p id="resultadoVida"></p>
     </main>
-
+    <div id="mensajeUsuario"></div>
     <script src="./js/index.js"></script>
 </body>
 
