@@ -52,6 +52,10 @@ nav ul li a {
     color: #fff;
 }
 
+.tooltip-content{
+    display: none;
+}
+
 .swiper-slide img {
     width: 100%;
     max-width: 300px;

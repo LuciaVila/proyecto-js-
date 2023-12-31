@@ -1,202 +1,200 @@
-
-function Interfaz() {
-    this.formulario = document.getElementById('cotizarSeguroAuto');
-  }
-
-Interfaz.prototype.mostrarMensaje = function (mensaje, tipo) {
-    const div = document.createElement("div");
-    div.textContent = mensaje;
-
-    if (tipo === 'error') {
-        div.classList.add('mensaje', 'error');
-    } else {
-        div.classList.add("mensaje", "correcto");
-    }
-
-    const formGroup = this.formulario.querySelector(".form-group");
-    if (formGroup) {
-        formGroup.parentNode.insertBefore(div, formGroup.nextSibling);
-    } else {
-        this.formulario.appendChild(div);
-    }
-
-    setTimeout(function () {
-        div.remove();
-    }, 2000);
-};
-function obtenerEstadoAutenticacion(){
-    return true;
-}
-function verificarSesionActiva(){
-    const usuarioAuntenticado= obtenerEstadoAutenticacion();
-    return usuarioAuntenticado;
-}
-
 document.addEventListener('DOMContentLoaded', function () {
-    const sesionActiva = verificarSesionActiva();
-    if (!sesionActiva) {
-        mostrarFormularioInicioSesion();
-    }
-});
-function iniciarSesion() {
-    const correo = document.getElementById('correo').value;
-    const contrasena = document.getElementById('contrasena').value;
+    const enlaceIniciarSesion = document.getElementById('enlaceIniciarSesion');
+    const formularioInicioSesion = document.getElementById('formularioInicioSesion');
 
-    const credencialesValidas = verificarCredenciales(correo, contrasena);
+    enlaceIniciarSesion.addEventListener('mouseenter', function () {
+        formularioInicioSesion.classList.remove('ocultar');
+    });
 
-    if (credencialesValidas) {
-        mostrarFormularioCotizacion();
-    } else {
-        mostrarMensajeError('Credenciales incorrectas. Inténtalo de nuevo.');
-    }
-}
-function mostrarFormularioInicioSesion() {
-    const formularioInicioSesion = document.getElementById('formularioInicioSesionAuto');
-    formularioInicioSesion.classList.remove('ocultar');
-}
+    enlaceIniciarSesion.addEventListener('mouseleave', function () {
+        formularioInicioSesion.classList.add('ocultar');
+    });
 
-function Seguro(marca, anio, tipo) {
-    this.marca = marca;
-    this.anio = anio;
-    this.tipo = tipo;
-}
+    formularioInicioSesion.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const correo = document.getElementById('correo').value;
+        const contrasena = document.getElementById('contrasena').value;
 
-Seguro.prototype.cotizarSeguro = function () {
-    let cantidad;
-    const base = 2000;
+        const credencialesValidas = verificarCredenciales(correo, contrasena);
 
-    switch (this.marca) {
-        case '1':
-            cantidad = base * 1.15;
-            break;
-        case '2':
-            cantidad = base * 1.05;
-            break;
-        case '3':
-            cantidad = base * 1.35;
-            break;
-    }
-
-    const diferencia = new Date().getFullYear() - this.anio;
-    cantidad -= ((diferencia * 3) * cantidad) / 100;
-
-    if (this.tipo === 'basico') {
-        cantidad *= 1.30;
-    } else {
-        cantidad *= 1.50;
-    }
-    return cantidad;
-};
-
-function Interfaz() {
-    this.formulario = document.getElementById('cotizarSeguroAuto');
- }
-
-Interfaz.prototype.mostarMensaje = function (mensaje, tipo) {
-    const div = document.createElement("div");
-
-    if (tipo === 'error') {
-        div.classList.add('mensaje', 'error');
-    } else {
-        div.classList.add("mensaje", "correcto");
-    }
-
-    div.innerHTML = `${mensaje}`;
-    const formGroup = this.formulario.querySelector(".form-group");
-
-    if (formGroup) {
-        formGroup.parentNode.insertBefore(div, formGroup);
-    } else {
-        this.formulario.appendChild(div);
-    }
-
-    setTimeout(function () {
-        document.querySelector('.mensaje').remove();
-    }, 2000);
-};
-
-Interfaz.prototype.mostrarResultado = function (seguro, total) {
-    const resultado = document.getElementById('resultado');
-    let marca;
-
-    switch (seguro.marca) {
-        case '1':
-            marca = 'Americano';
-            break;
-        case '2':
-            marca = 'Asiático';
-            break;
-        case '3':
-            marca = 'Europeo';
-            break;
-    }
-
-    const div = document.createElement('div');
-    div.innerHTML = `
-       <p class="header">Tu resumen:</p>
-       <p>Marca: ${marca}</p>
-       <p> Año: ${seguro.anio}</p>
-       <p>Tipo: ${seguro.tipo}</p>
-       <p>Total: $ ${total}</p>   
-    `;
-
-    resultado.appendChild(div);
-};
-
-document.addEventListener('DOMContentLoaded', function () {
-    const formularioAuto = document.getElementById('cotizarSeguroAuto');
-    formularioAuto.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const marca = document.getElementById('marca');
-        const marcaSeleccionada = marca.options[marca.selectedIndex].value;
-
-        const anio = document.getElementById("anio");
-        const anioSeleccionado = anio.options[anio.selectedIndex].value;
-
-        const tipo = document.querySelector('input[name="tipo"]:checked').value;
-
-        const interfaz = new Interfaz();
-
-        if (marcaSeleccionada === '' || anioSeleccionado === '' || tipo === '') {
-            interfaz.mostarMensaje('Faltan Datos, revisa e intenta de nuevo', 'error');
+        if (credencialesValidas) {
+            console.log('Inicio de sesión exitoso');
+            mostrarFormularioCotizacion();
         } else {
-            const resultados = document.querySelector('#resultado div');
-            if (resultados != null) {
-                resultados.remove();
-            }
-
-            const seguro = new Seguro(marcaSeleccionada, anioSeleccionado, tipo);
-            const cantidad = seguro.cotizarSeguro(seguro);
-            interfaz.mostrarResultado(seguro, cantidad);
-            interfaz.mostarMensaje('Cotizando', 'correcto');
+            console.log('Credenciales incorrectas. Inténtalo de nuevo.');
+            mostrarMensajeError('Credenciales incorrectas. Inténtalo de nuevo.');
         }
     });
 
-    const botonMostrarFormularioAuto = document.getElementById('mostrarFormularioAuto');
+});
+
+async function validarCorreoElectronico(correo) {
+    const url = 'https://email-validator8.p.rapidapi.com/api/v2.0/email';
+    const apiKey = 'eaa42ca13emshb5020265f8d06dcp10cb9fjs';
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'X-RapidAPI-Key': apiKey,
+            'X-RapidAPI-Host': 'email-validator8.p.rapidapi.com'
+        },
+        body: new URLSearchParams({
+            email: correo
+        })
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.text();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
+    }
+}
+class Seguro {
+    constructor(marca, anio, tipo) {
+        this.marca = marca;
+        this.anio = anio;
+        this.tipo = tipo;
+    }
+    cotizarSeguro() {
+        let cantidad;
+        const base = 2000;
+
+        switch (this.marca) {
+            case '1':
+                cantidad = base * 1.15;
+                break;
+            case '2':
+                cantidad = base * 1.05;
+                break;
+            case '3':
+                cantidad = base * 1.35;
+                break;
+        }
+
+        const diferencia = new Date().getFullYear() - this.anio;
+        cantidad -= ((diferencia * 3) * cantidad) / 100;
+
+        if (this.tipo === 'basico') {
+            cantidad *= 1.30;
+        } else {
+            cantidad *= 1.50;
+        }
+        return cantidad;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const marca = document.getElementById('marca');
+    const marcaSeleccionada = marca.options[marca.selectedIndex].value;
+
+    const anio = document.getElementById('anio');
+    const anioSeleccionado = anio.value
+
+    const tipo = document.querySelector('input[name="tipo"]:checked');
+    const tipoSeleccionado = tipo ? tipo.value : null;
+
+    if (marcaSeleccionada === '' || anioSeleccionado === '' || tipoSeleccionado === null) {
+        interfaz.mostrarMensaje('Faltan Datos, revisa e intenta de nuevo', 'error');
+    } else {
+        const resultados = document.querySelector('#resultado div');
+        if (resultados !== null) {
+            resultados.remove();
+        }
+        const interfaz = new Interfaz();
+        const seguro = new Seguro(marcaSeleccionada, anioSeleccionado, tipoSeleccionado);
+        const cantidad = seguro.cotizarSeguro();
+        interfaz.mostrarResultado(seguro, cantidad);
+        interfaz.mostrarMensaje('Cotizando', 'correcto');
+    } 
+
+    const botonMostrarFormularioAuto = document.getElementById('botonMostrarFormularioAuto');
     const formularioSeguroAuto = document.getElementById('formularioSeguroAuto');
 
     botonMostrarFormularioAuto.addEventListener('click', function () {
         formularioSeguroAuto.classList.toggle('ocultar');
     });
 
-    const max = new Date().getFullYear(),
-        min = max - 20;
-    const selectAnios = document.getElementById('anio');
-
-    for (let i = max; i > min; i--) {
-        let option = document.createElement('option');
-        option.value = i;
-        option.innerHTML = i;
-        selectAnios.appendChild(option);
-    }
+    const botonCotizarAuto = document.getElementById('botonCotizarAuto');
+    botonCotizarAuto.addEventListener('click', function () {
+    });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const formulario = document.getElementById('formulario');
-    document.addEventListener('DOMContentLoaded', function (e) {
-        e.preventDefault();
-    });
+class Interfaz {
+    constructor() {
+        this.formulario = document.getElementById('cotizarSeguroAuto');
+    }
+    mostrarMensaje(mensaje, tipo) {
+        const div = document.createElement("div");
+
+        if (tipo === 'error') {
+            div.classList.add('mensaje', 'error');
+        } else {
+            div.classList.add("mensaje", "correcto");
+        }
+
+        div.innerHTML = `${mensaje}`;
+        const formGroup = this.formulario.querySelector(".form-group");
+
+        if (formGroup) {
+            formGroup.parentNode.insertBefore(div, formGroup);
+        } else {
+            this.formulario.appendChild(div);
+        }
+
+        setTimeout(function () {
+            document.querySelector('.mensaje').remove();
+        }, 2000);
+    }
+
+    mostrarResultado(seguro, cantidad) {
+        const resultado = document.getElementById('resultado');
+        let marca;
+
+        switch (seguro.marca) {
+            case '1':
+                marca = 'Americano';
+                break;
+            case '2':
+                marca = 'Asiático';
+                break;
+            case '3':
+                marca = 'Europeo';
+                break;
+            default:
+                marca = 'Desconocido';
+                break;
+        }
+
+        const div = document.createElement('div');
+        div.innerHTML = `
+           <p class="header">Tu resumen:</p>
+           <p>Marca: ${marca}</p>
+           <p>Año: ${seguro.anio}</p>
+           <p>Tipo: ${seguro.tipo}</p>
+           <p>Total: $ ${cantidad}</p>   
+        `;
+
+        resultado.appendChild(div);
+    }
+}
+
+const max = new Date().getFullYear();
+const min = max - 20;
+const selectAnios = document.getElementById('anio');
+
+for (let i = max; i > min; i--) {
+    let option = document.createElement('option');
+    option.value = i;
+    option.innerHTML = i;
+    selectAnios.appendChild(option);
+}
+
+const formulario = document.getElementById('formularioSeguroAuto');
+formulario.addEventListener('submit', function (e) {
+    e.preventDefault();
 });
 
 //seguro vida
@@ -275,4 +273,19 @@ document.addEventListener('DOMContentLoaded', function () {
     botonMostrarFormularioHogar.addEventListener('click', function () {
         formularioSeguroHogar.classList.toggle('ocultar');
     });
+});
+
+tippy('#opcion1', {
+    content: document.querySelector('#tooltipOpcion1').innerHTML,
+    interactive: true,
+});
+
+tippy('#opcion2', {
+    content: document.querySelector('#tooltipOpcion2').innerHTML,
+    interactive: true,
+});
+
+tippy('#opcion4', {
+    content: document.querySelector('#tooltipOpcion4').innerHTML,
+    interactive: true,
 });
